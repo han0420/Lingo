@@ -5,8 +5,8 @@ struct RuleEditorView: View {
     @State private var rule: AppRule
     let onSave: (AppRule) -> Void
 
-    init(rule: AppRule?, onSave: @escaping (AppRule) -> Void) {
-        _rule = State(initialValue: rule ?? AppRule(bundleIdentifier: "", appName: "", inputMethod: .english))
+    init(rule: AppRule, onSave: @escaping (AppRule) -> Void) {
+        _rule = State(initialValue: rule)
         self.onSave = onSave
     }
 

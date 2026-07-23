@@ -6,7 +6,6 @@ struct SettingsView: View {
     @State private var searchText = ""
     @State private var editedRule: AppRule?
     @State private var rulePendingDeletion: AppRule?
-    @State private var showsEditor = false
 
     private var filteredRules: [AppRule] {
         guard !searchText.isEmpty else { return store.configuration.rules }
@@ -34,8 +33,8 @@ struct SettingsView: View {
         .frame(minWidth: 600, minHeight: 460)
         .navigationTitle(L10n.string("settings.title"))
         .background(SettingsWindowLifecycle(onClose: store.resyncForegroundApplication))
-        .sheet(isPresented: $showsEditor) {
-            RuleEditorView(rule: editedRule) { store.upsert($0) }
+        .sheet(item: $editedRule) { rule in
+            RuleEditorView(rule: rule) { store.upsert($0) }
         }
     }
 
@@ -48,8 +47,7 @@ struct SettingsView: View {
                     .layoutPriority(1)
                 Spacer(minLength: 8)
                 Button {
-                    editedRule = nil
-                    showsEditor = true
+                    editedRule = AppRule(bundleIdentifier: "", appName: "", inputMethod: .english)
                 } label: {
                     Label(l10n: "rules.add", systemImage: "plus")
                 }
@@ -57,7 +55,6 @@ struct SettingsView: View {
                 Button {
                     if let rule = InstalledApplicationPicker.pickRule() {
                         editedRule = rule
-                        showsEditor = true
                     }
                 } label: {
                     Label(l10n: "rules.chooseApp", systemImage: "app.badge")
@@ -72,7 +69,6 @@ struct SettingsView: View {
                         store.upsert(updated)
                     } onEdit: {
                         editedRule = rule
-                        showsEditor = true
                     } onDelete: {
                         rulePendingDeletion = rule
                     }

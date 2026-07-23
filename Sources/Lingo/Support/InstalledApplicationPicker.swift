@@ -14,6 +14,6 @@ enum InstalledApplicationPicker {
         let name = bundle.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
             ?? bundle.object(forInfoDictionaryKey: "CFBundleName") as? String
             ?? url.deletingPathExtension().lastPathComponent
-        return AppRule(bundleIdentifier: identifier, appName: name, inputMethod: .english)
+        return AppRule(bundleIdentifier: identifier, appName: name, inputMethod: .chinese)
     }
 }
