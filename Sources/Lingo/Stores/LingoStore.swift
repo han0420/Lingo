@@ -51,9 +51,22 @@ final class LingoStore {
     }
 
     func start() {
-        monitor.start { [weak self] bundleIdentifier, appName in
-            self?.applicationDidActivate(bundleIdentifier: bundleIdentifier, appName: appName)
+        monitor.start { [weak self] bundleIdentifier, appName, trigger in
+            self?.applicationDidActivate(
+                bundleIdentifier: bundleIdentifier,
+                appName: appName,
+                trigger: trigger
+            )
         }
+    }
+
+    func resyncForegroundApplication() {
+        guard let app = WorkspaceMonitor.frontmostApplication() else { return }
+        applicationDidActivate(
+            bundleIdentifier: app.bundleIdentifier,
+            appName: app.appName,
+            trigger: .resync
+        )
     }
 
     func save() {
@@ -119,12 +132,17 @@ final class LingoStore {
         save()
     }
 
-    func applicationDidActivate(bundleIdentifier: String, appName: String) {
+    func applicationDidActivate(
+        bundleIdentifier: String,
+        appName: String,
+        trigger: ForegroundActivationTrigger = .applicationActivated
+    ) {
         if let skipReason = SwitchCoordinator.skipReason(
             bundleIdentifier: bundleIdentifier,
             lastBundleIdentifier: lastBundleIdentifier,
             isAutomaticSwitchingEnabled: configuration.isAutomaticSwitchingEnabled,
-            ownBundleIdentifier: Bundle.main.bundleIdentifier
+            ownBundleIdentifier: Bundle.main.bundleIdentifier,
+            ignoreSameForegroundApplication: trigger == .resync
         ) {
             if skipReason == .sameForegroundApplication || skipReason == .ownApplication {
                 return

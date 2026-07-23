@@ -26,6 +26,18 @@ final class SwitchCoordinatorTests: XCTestCase {
         )
     }
 
+    func testResyncAllowsSameForegroundApplication() {
+        XCTAssertNil(
+            SwitchCoordinator.skipReason(
+                bundleIdentifier: "com.apple.Safari",
+                lastBundleIdentifier: "com.apple.Safari",
+                isAutomaticSwitchingEnabled: true,
+                ownBundleIdentifier: "com.lingo.input-switcher",
+                ignoreSameForegroundApplication: true
+            )
+        )
+    }
+
     func testSkipWhenOwnApplicationIsForeground() {
         XCTAssertEqual(
             SwitchCoordinator.skipReason(

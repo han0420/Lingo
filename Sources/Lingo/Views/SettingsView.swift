@@ -33,6 +33,7 @@ struct SettingsView: View {
         .padding(16)
         .frame(minWidth: 600, minHeight: 460)
         .navigationTitle(L10n.string("settings.title"))
+        .background(SettingsWindowLifecycle(onClose: store.resyncForegroundApplication))
         .sheet(isPresented: $showsEditor) {
             RuleEditorView(rule: editedRule) { store.upsert($0) }
         }

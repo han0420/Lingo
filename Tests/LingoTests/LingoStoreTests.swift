@@ -31,6 +31,20 @@ final class LingoStoreTests: XCTestCase {
         XCTAssertEqual(inputSourceService.selectCallCount, 1)
     }
 
+    func testResyncAllowsRepeatedForegroundApplicationSwitch() {
+        let inputSourceService = MockInputSourceService()
+        let store = makeStore(inputSourceService: inputSourceService)
+
+        store.applicationDidActivate(bundleIdentifier: "com.apple.Safari", appName: "Safari")
+        store.applicationDidActivate(
+            bundleIdentifier: "com.apple.Safari",
+            appName: "Safari",
+            trigger: .resync
+        )
+
+        XCTAssertEqual(inputSourceService.selectCallCount, 2)
+    }
+
     func testSuccessfulSwitchRecordsInMemoryOnly() {
         let inputSourceService = MockInputSourceService()
         let store = makeStore(inputSourceService: inputSourceService)

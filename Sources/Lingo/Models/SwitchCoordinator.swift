@@ -1,5 +1,10 @@
 import Foundation
 
+enum ForegroundActivationTrigger: Equatable, Sendable {
+    case applicationActivated
+    case resync
+}
+
 enum SwitchReason: Equatable, Sendable {
     case matchedRule
     case globalDefault
@@ -36,11 +41,14 @@ enum SwitchCoordinator {
         bundleIdentifier: String,
         lastBundleIdentifier: String?,
         isAutomaticSwitchingEnabled: Bool,
-        ownBundleIdentifier: String?
+        ownBundleIdentifier: String?,
+        ignoreSameForegroundApplication: Bool = false
     ) -> SwitchSkipReason? {
         guard isAutomaticSwitchingEnabled else { return .automaticSwitchingDisabled }
         if let ownBundleIdentifier, bundleIdentifier == ownBundleIdentifier { return .ownApplication }
-        if bundleIdentifier == lastBundleIdentifier { return .sameForegroundApplication }
+        if !ignoreSameForegroundApplication, bundleIdentifier == lastBundleIdentifier {
+            return .sameForegroundApplication
+        }
         return nil
     }
 
