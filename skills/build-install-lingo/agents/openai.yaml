@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build and install Lingo"
+  short_description: "Build, sign, verify, and locally install Lingo."
+  default_prompt: "Build and install the current Lingo macOS app safely."

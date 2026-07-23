@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lingo UI guidelines"
+  short_description: "Apply Lingo SwiftUI settings and menu bar conventions."
+  default_prompt: "Apply the Lingo UI conventions to this user-visible change."

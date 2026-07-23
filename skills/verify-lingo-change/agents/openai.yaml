@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verify a Lingo change"
+  short_description: "Validate Lingo code, tests, docs, localization, and packaging."
+  default_prompt: "Verify this Lingo change and report any blockers."

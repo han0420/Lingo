@@ -1,0 +1,9 @@
+{
+  "app-icon": "app-icon-source.png",
+  "menubar-chinese": "menubar-chinese.png",
+  "menubar-english": "menubar-english.png",
+  "menubar-switching": "menubar-switching.png",
+  "menubar-paused": "menubar-paused.png",
+  "menubar-rule-active": "menubar-rule-active.png",
+  "menubar-disabled": "menubar-disabled.png"
+}
